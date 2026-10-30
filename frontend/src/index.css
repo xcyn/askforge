@@ -1,0 +1,154 @@
+/* AskForge 页面样式：应用导航、文档与问答、登录页。 */
+:root {
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  color: #1c1917;
+  --af-paper: #f6f1ea;
+  --af-yellow: #e8b20a;
+  --af-yellow-soft: #fff8e1;
+  --af-ink: #1c1917;
+  --af-muted: #8a8178;
+  --af-line: #efe6dc;
+}
+
+* { box-sizing: border-box; }
+html, body, #root {
+  margin: 0;
+  height: 100%;
+  background: var(--af-paper);
+}
+
+.af-root {
+  display: flex;
+  height: 100%;
+  min-height: 100%;
+  background: var(--af-paper);
+}
+.af-sider {
+  width: 232px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fbf8f4;
+  border-right: 1px solid var(--af-line);
+}
+.af-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 16px 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+.af-brand b { display: block; font-size: 15px; line-height: 1.2; }
+.af-brand small { display: block; margin-top: 2px; color: var(--af-muted); font-size: 12px; }
+.af-nav { padding: 8px 12px 16px; overflow: auto; }
+.af-nav-label { margin: 16px 10px 6px; color: #b0a69c; font-size: 12px; }
+.af-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 2px 0;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #44403c;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.af-nav-item.active { background: var(--af-yellow-soft); color: #c2410c; font-weight: 600; }
+.af-nav-item:focus-visible,
+.af-brand:focus-visible,
+.af-logout:focus-visible {
+  outline: 2px solid var(--af-yellow);
+  outline-offset: 2px;
+}
+.af-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.af-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 28px;
+  background: transparent;
+}
+.af-header h1 { margin: 0; font-size: 18px; font-weight: 650; }
+.af-header-right { display: flex; align-items: center; gap: 16px; }
+.af-user { display: flex; align-items: center; gap: 8px; }
+.af-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #7c5cbf;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+.af-user-name { font-size: 14px; }
+.af-logout {
+  border: 0;
+  background: transparent;
+  color: var(--af-muted);
+  font: inherit;
+  cursor: pointer;
+}
+.af-content { flex: 1; min-height: 0; padding: 4px 28px 28px; overflow: auto; }
+.af-page {
+  background: #fff;
+  border: 1px solid var(--af-line);
+  border-radius: 16px;
+  padding: 20px 24px 24px;
+  min-height: calc(100vh - 124px);
+}
+.af-access-hint { margin: 0 0 16px; color: #8c8c8c; font-size: 13px; line-height: 1.6; }
+
+/* 文档正文与问答回答共用 Markdown 排版。 */
+.af-md > *:first-child { margin-top: 0; }
+.af-md > *:last-child { margin-bottom: 0; }
+.af-md h3, .af-md h4 { margin: 14px 0 8px; font-size: 15px; font-weight: 600; line-height: 1.4; }
+.af-md p { margin: 0 0 10px; }
+.af-md ul, .af-md ol { margin: 0 0 10px; padding-left: 1.4em; }
+.af-md li { margin: 4px 0; }
+.af-md code { padding: 1px 5px; border-radius: 4px; background: #fff; font-size: 12px; }
+.af-md pre { overflow: auto; padding: 10px 12px; border-radius: 8px; background: #fff; }
+.af-md pre code { padding: 0; background: none; }
+.af-md table { width: 100%; margin: 0 0 10px; border-collapse: collapse; font-size: 13px; background: #fff; }
+.af-md th, .af-md td { padding: 6px 8px; border: 1px solid #f0f0f0; text-align: left; }
+
+.af-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--af-paper);
+}
+.af-login-card { width: 400px; max-width: calc(100% - 32px); }
+.af-login-title {
+  text-align: center;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.af-login-title h1 { margin: 4px 0 0; font-size: 22px; }
+.af-login-title p { color: #8c8c8c; margin: 0; }
+
+@media (max-width: 860px) {
+  .af-root { flex-direction: column; height: auto; min-height: 100%; }
+  .af-sider { width: 100%; border-right: 0; border-bottom: 1px solid var(--af-line); }
+  .af-nav { display: flex; gap: 8px; overflow: auto; }
+  .af-nav-label { display: none; }
+  .af-nav-item { width: auto; white-space: nowrap; }
+  .af-header { padding: 0 16px; }
+  .af-content { padding: 4px 16px 20px; }
+}

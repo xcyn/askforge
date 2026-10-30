@@ -1,0 +1,59 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg15
+    container_name: askforge-postgres
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:?请在 .env 配置 DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?请在 .env 配置 DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME:?请在 .env 配置 DATABASE_NAME}
+    ports:
+      # 避开本机可能已占用的 5432
+      - '5433:5432'
+    volumes:
+      - askforge_pg_data:/var/lib/postgresql/data
+      - ./backend/init-scripts/postgresql/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Postgres 图形客户端；宿主 8089，避开常见的 8088
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: askforge-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:?请在 .env 配置 PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:?请在 .env 配置 PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - '8089:80'
+    volumes:
+      - askforge_pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # v1 应用不连接 MinIO；预置对象存储供后续上传版使用（自带 Console → 宿主 9011）
+  minio:
+    image: cgr.dev/chainguard/minio:latest
+    container_name: askforge-minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?请在 .env 配置 MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?请在 .env 配置 MINIO_ROOT_PASSWORD}
+    command:
+      - server
+      - /data
+      - --address
+      - ':9000'
+      - --console-address
+      - ':9001'
+    ports:
+      - '9010:9000'
+      - '9011:9001'
+    volumes:
+      - askforge_minio_data:/data
+
+volumes:
+  askforge_pg_data:
+  askforge_pgadmin_data:
+  askforge_minio_data:

@@ -22,6 +22,7 @@ NestJS + TypeScript；PostgreSQL 15 + pgvector；MinIO；Docker Compose；OpenAI
 
 | 文档 | 归属内容 | 何时查阅 |
 |------|---------|---------|
+| [ARCHITECTURE.md](ARCHITECTURE.md) | 前后端框架、模块边界与数据流总览 | 摸清仓库结构、模块与 RAG 链路时 |
 | [docs/agents/rules.md](docs/agents/rules.md) | Nest/TS 代码规范与注释约定 | 写代码前 |
 | [docs/agents/dev-flow.md](docs/agents/dev-flow.md) | OpenSpec × superpowers 分工与闸门 | 开工、出方案、声称完成前 |
 | [docs/agents/glossary.md](docs/agents/glossary.md) | RAG 相关术语 | 命名、写文档用词不确定时 |
